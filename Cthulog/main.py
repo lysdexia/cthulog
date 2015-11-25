@@ -97,7 +97,7 @@ def init_db():
     except Exception as error:
         print(error)
         app.logger.critical(error)
-    return render_template("index.html")
+    return redirect(url_for("index"))
 app.add_url_rule("/init-db", "init_db", init_db)
 
 
