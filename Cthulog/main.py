@@ -90,8 +90,12 @@ app.add_url_rule("/new", "new", new, methods = ["GET", "POST"])
 
 @login_required()
 def init_db():
-
-    return render_template("new.html")
+    app.logger.warning("initializing db")
+    try:
+        db.create_all()
+    except Exception as error:
+        app.logger.critical(error)
+    return render_template("index.html")
 app.add_url_rule("/init-db", "init_db", init_db)
 
 
