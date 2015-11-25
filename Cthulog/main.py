@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from flask import Flask, render_template, request, url_for, g, redirect, session
 from flaskext.auth import Auth, AuthUser, login_required, logout
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -6,13 +7,30 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config.from_object("config")
 
-# initialze ye olde db
-db = SQLAlchemy(app)
-
 # authentication
 auth = Auth(app, login_url_name="login")
 # you'll stay logged in unto the heat death of the universe
 auth.user_timeout = 0
+
+# initialze ye olde db
+db = SQLAlchemy(app)
+
+# set up our one class
+class Cthulog(db.Model):
+    id = Column(Integer, primary_key=True)
+    stamp = Column(DateTime(timezone=True), default=datetime.datetime.utcnow())
+    author = Column(String)
+    title = Column(String)
+    content = Column(Text)
+    
+    def __init__(self, title, content):
+        self.author = session["username"]
+        self.date = datetime.datetime.utcnow()
+        self.title = title
+        self.content = content
+
+    def __repr__(self):
+        return "<Cthulog %r>"%self.title
 
 # set up one or more users - they all edit the same blog, so don't expect
 # anything fancy. everyone is first fire chief
@@ -39,6 +57,7 @@ def login():
         username = request.form["username"]
         if username in g.users:
             if g.users[username].authenticate(request.form["password"]):
+                session["username"] = username
                 return redirect(url_for("index"))
             return render_template("login.html")
     return render_template("login.html")
@@ -66,5 +85,12 @@ app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
 def new():
     return render_template("new.html")
 app.add_url_rule("/new", "new", new, methods = ["GET", "POST"])
+
+@login_required()
+def init_db():
+
+    return render_template("new.html")
+app.add_url_rule("/init-db", "init_db", init_db)
+
 
 app.secret_key = app.config["APP_SECRET_KEY"]
