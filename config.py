@@ -12,7 +12,7 @@ urlparse.uses_netloc.append("postgres")
 URL = urlparse.urlparse(os.environ["DATABASE_URL"])
 
 # authentication is in it's own file.
-APP_SECRET_KEY = "changemefool"
+APP_SECRET_KEY = "changemefoolseriously"
 
 EDITORS = {"email@example.com": "doublesecret"}
 
