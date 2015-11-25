@@ -47,8 +47,9 @@ def init_users():
 # "regular" front-end for nsixtymedia.com
 @app.route("/")
 def index():
-    posts = db.session.query(Cthulog).yield_per(5):
-        print(p)
+    posts = Cthulog.query.all()
+    for post in posts:
+        print(post)
     return render_template("index.html")
 
 # must be logged in to edit or create entries
