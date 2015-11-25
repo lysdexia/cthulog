@@ -89,6 +89,7 @@ app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
 def new():
     log = Cthulog("cow pie guy", "deep in the heart of texas")
     db.session.add(log)
+    db.session.commit()
     return render_template("new.html")
 app.add_url_rule("/new", "new", new, methods = ["GET", "POST"])
 
