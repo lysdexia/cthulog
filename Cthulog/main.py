@@ -47,6 +47,8 @@ def init_users():
 # "regular" front-end for nsixtymedia.com
 @app.route("/")
 def index():
+    posts = Cthulog.query.all()
+    print(posts)
     return render_template("index.html")
 
 # must be logged in to edit or create entries
@@ -85,18 +87,18 @@ app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
 
 @login_required()
 def new():
+    log = Cthulog("cow pie guy", "deep in the heart of texas")
+    db.session.add(log)
     return render_template("new.html")
 app.add_url_rule("/new", "new", new, methods = ["GET", "POST"])
 
 @login_required()
 def init_db():
-    app.logger.warning("initializing db")
     print("initializing db")
     try:
         db.create_all()
     except Exception as error:
         print(error)
-        app.logger.critical(error)
     return redirect(url_for("index"))
 app.add_url_rule("/init-db", "init_db", init_db)
 
