@@ -17,14 +17,14 @@ db = SQLAlchemy(app)
 
 # set up our one class
 class Cthulog(db.Model):
-    id = db.Column(Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     stamp = db.Column(
-            DateTime(timezone=True),
+            db.DateTime(timezone=True),
             default=datetime.datetime.utcnow()
             )
-    author = db.Column(String)
-    title = db.Column(String)
-    content = db.Column(Text)
+    author = db.Column(db.String)
+    title = db.Column(db.String)
+    content = db.Column(db.Text)
     
     def __init__(self, title, content):
         self.author = session["username"]
