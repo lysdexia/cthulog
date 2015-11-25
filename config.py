@@ -9,7 +9,7 @@ flask automagically includes ALL_CAPS values in the app.config object
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 urlparse.uses_netloc.append("postgres")
-URL = urlparse.urlparse(os.environ["CTHULOG_DB"])
+URL = urlparse.urlparse(os.environ["DATABASE_URL"])
 
 # authentication is in it's own file.
 APP_SECRET_KEY = "changemefool"
