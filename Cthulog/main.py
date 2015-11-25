@@ -47,7 +47,7 @@ def init_users():
 # "regular" front-end for nsixtymedia.com
 @app.route("/")
 def index():
-    posts = Cthulog.query.all().yield_per(5):
+    posts = db.session.query(Cthulog).yield_per(5):
         print(p)
     return render_template("index.html")
 
