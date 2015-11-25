@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, url_for, g, redirect, session
 from flaskext.auth import Auth, AuthUser, login_required, logout
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config.from_object("config")
+
+# initialze ye olde db
+db = SQLAlchemy(app)
 
 # authentication
 auth = Auth(app, login_url_name="login")

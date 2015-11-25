@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import urlparse
 """
 flask automagically includes ALL_CAPS values in the app.config object
 (see main.py app.config.from_object)
@@ -8,8 +7,8 @@ flask automagically includes ALL_CAPS values in the app.config object
 # path to use when daemonized
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-urlparse.uses_netloc.append("postgres")
-URL = urlparse.urlparse(os.environ["DATABASE_URL"])
+# Yeah, this is overkill
+SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 # authentication is in it's own file.
 APP_SECRET_KEY = "changemefoolseriously"
