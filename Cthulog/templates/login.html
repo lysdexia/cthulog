@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Login</h1>
+
+{% if login_error is defined %}
+<p>Incorrect username or password</p>	
+{% endif %}
+
+<form method="POST">
+	<div class="row">
+		<label for="username" class="cell">Username: </label>
+		<input type="text" name="username"></input>
+	</div>
+
+	<div class="row">
+		<label for="password" class="cell">Password: </label>
+		<input type="password" name="password"></input><br>
+	</div>
+
+	<div class="row">
+		<label class="cell"></label>
+		<input type="submit" value="Log In"></input>
+	</div>
+</form>
+{% endblock %}
