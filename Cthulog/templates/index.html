@@ -4,13 +4,12 @@
 {% endblock %}
 {% block content %}
 {% for entry in posts %}
+<h1>Bupkis</h1>
 <h2>{{ entry.title }}</h2>
-<div class="content">
+<div class="post">
 	<span class="stamp">{{ entry.stamp }}</span>
 	<span class="author">{{ entry.author }}</span>
-	{{ entry.content }}
+	<div class="content">{{ entry.content }}</div>
 </div>
 {% endfor %}
-<h1>Bupkis</h1>
-<p>bupkis</p>
 {% endblock %}
