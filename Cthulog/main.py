@@ -48,7 +48,12 @@ def init_users():
 @app.route("/")
 def index():
     #posts = Cthulog.query.all().order_by(db.desc(Cthulog.stamp))
-    posts = Cthulog.query.get(5)
+    #posts = Cthulog.query.get(5)
+    db.session.query(
+            Cthulog.stamp,
+            Cthulog.author,
+            Cthulog.title,
+            Cthulog.content).order_by(Cthulog.stamp.desc())
     return render_template("index.html", posts=posts)
 
 # must be logged in to edit or create entries
