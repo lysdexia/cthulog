@@ -48,12 +48,7 @@ def init_users():
 @app.route("/")
 def index():
     posts = Cthulog.query.all()
-    for post in posts:
-        print(post.stamp)
-        print(post.author)
-        print(post.title)
-        print(post.content)
-    return render_template("index.html")
+    return render_template("index.html", posts=posts)
 
 # must be logged in to edit or create entries
 
