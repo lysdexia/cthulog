@@ -86,9 +86,14 @@ app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
 
 @login_required()
 def new():
-    log = Cthulog("cow pie guy", "deep in the heart of texas")
-    db.session.add(log)
-    db.session.commit()
+    if request.method == "POST":
+        cthulog_post = Cthulog(
+                request.form.get("title"),
+                request.form.get("content"),
+                )
+        db.session.add(cthulog_post)
+        db.session.commit()
+        return redirect(url_for("index"))
     return render_template("new.html")
 app.add_url_rule("/new", "new", new, methods = ["GET", "POST"])
 
