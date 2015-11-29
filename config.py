@@ -7,11 +7,10 @@ flask automagically includes ALL_CAPS values in the app.config object
 # path to use when daemonized
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-# Yeah, this is overkill
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-
 # authentication is in it's own file.
 APP_SECRET_KEY = "changemefoolseriously"
+
+MONGOLAB_URI = os.environ["MONGOLAB_URI"]
 
 EDITORS = {"email@example.com": "doublesecret"}
 

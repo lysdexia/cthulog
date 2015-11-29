@@ -2,9 +2,11 @@
 import datetime
 from flask import Flask, render_template, request, url_for, g, redirect, session
 from flaskext.auth import Auth, AuthUser, login_required, logout
+from flask.ext.pymongo import PyMongo
 
 app = Flask(__name__)
 app.config.from_object("config")
+mongo = PyMongo(app, config_prefix="MONGOLAB")
 
 # authentication
 auth = Auth(app, login_url_name="login")
@@ -24,6 +26,7 @@ def init_users():
 # "regular" front-end for nsixtymedia.com
 @app.route("/")
 def index():
+    posts = []
     return render_template("index.html", posts=posts)
 
 # must be logged in to edit or create entries
@@ -72,6 +75,5 @@ def init_db():
     print("initializing db")
     return redirect(url_for("index"))
 app.add_url_rule("/init-db", "init_db", init_db)
-
 
 app.secret_key = app.config["APP_SECRET_KEY"]
