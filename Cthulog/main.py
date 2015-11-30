@@ -3,10 +3,12 @@ import datetime
 from flask import Flask, render_template, request, url_for, g, redirect, session
 from flaskext.auth import Auth, AuthUser, login_required, logout
 from flask.ext.pymongo import PyMongo
+from Cthulog.opression.Opression import opression_api
 
 app = Flask(__name__)
 app.config.from_object("config")
 mongo = PyMongo(app, config_prefix="MONGOLAB")
+opression_api(app)
 
 # authentication
 auth = Auth(app, login_url_name="login")
