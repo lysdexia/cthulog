@@ -12,6 +12,6 @@ APP_SECRET_KEY = "changemefoolseriously"
 
 MONGOLAB_URI = os.environ["MONGOLAB_URI"]
 
-EDITORS = {"email@example.com": "doublesecret"}
+ADMINS = {"email@example.com": "doublesecret"}
 
 del os
