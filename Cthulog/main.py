@@ -5,16 +5,13 @@ from flask import Flask, render_template, request, url_for, g, redirect, session
 from flaskext.auth import Auth, AuthUser, login_required, logout, Permission, Role, permission_required
 from flask.ext.pymongo import PyMongo
 from Cthulog.opression.Opression import opression_api
-from Cthulog.starrywisdom.StarryWisdom import starrywisdom 
 
 app = Flask(__name__)
 app.config.from_object("config")
 app.secret_key = app.config["APP_SECRET_KEY"]
 
 mongo = PyMongo(app, config_prefix="MONGOLAB")
-opression_api(app)
-
-sw = starrywisdom(app, mongo)
+opression_api(app, mongo)
 
 # authentication
 auth = Auth(app, login_url_name="login")
@@ -92,3 +89,12 @@ def login():
 def cthlogout():
     logout()
     return redirect(url_for("login"))
+    class Read(restful.Resource):
+        def post(self):
+            doc = request.get_json()
+            posts = mongo.db.posts.find(doc["args"]).sort([("stamp", -1)]).limit(100)
+            return {
+                    "section": doc["section"],
+                    "posts": "convert posts to json before you send them"
+                    }
+

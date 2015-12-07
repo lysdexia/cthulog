@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
 {{ super() }}
+<script type="text/javascript" src={{ url_for("static", filename="js/cthulog.js") }}"></script>
 {% if data %}
 <script>var access_token = {{ data.access_token }}</script>
 {% endif %}
