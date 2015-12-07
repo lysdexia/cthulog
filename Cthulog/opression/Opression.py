@@ -3,19 +3,9 @@ from flask import request
 from flask.ext import restful
 from flask_restful import reqparse
 
-"""
-TODO set up databases
-messages
-users
-hates
-"""
-
 def opression_api(app, mongo):
 
     class Read(restful.Resource):
-        """
-        read must have token from supplicant
-        """
         def post(self):
             doc = request.get_json()
             posts = mongo.db.posts.find(doc["args"]).sort([("stamp", -1)]).limit(100)
@@ -28,19 +18,13 @@ def opression_api(app, mongo):
         """
         write must have token from supplicant
         """
-    class Read(restful.Resource):
-        def post(self):
-            doc = request.get_json()
-            posts = mongo.db.posts.find(doc["args"]).sort([("stamp", -1)]).limit(100)
-            return {
-                    "section": doc["section"],
-                    "posts": "convert posts to json before you send them"
-                    }
-
         def post(self):
             return "I know NUTZINK!"
 
     class Supplicant(restful.Resource):
+        """
+        Think this all through and document it. 
+        """
         def post(self):
             doc = request.get_json()
             message_id = doc["message_id"]

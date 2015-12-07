@@ -17,7 +17,7 @@
  * thus increasing annoyance and pretending not to censor with a thumb firmly
  * planted in one's rectum.
  */
-function helpHesOpressingMe (difficulty) {
+function Oppression(difficulty) {
 
 	// generate random 10-digit number
 	var randint = parseInt(Math.random() * 0xFFFFFFFF);
@@ -62,19 +62,23 @@ $("#post_message").on("click", function () {
 		method: "POST",
 		type: "JSON",
 		data: JSON.stringify({
-			"messsage_id"
+			"messsage_id": "foo"
 		})
 	})
 	.success(function (data) {
 		// set sesson cookie from data
-		helpHesOpressingMe(data.difficulty);
+		Opression(data.difficulty);
 	})
 	.failure(function (error) {
 		console.log("handle the fail");
 	});
 });
-//var message = "I vociferously support Trump for president 2015! WAKE UP, SHEEPLE!!!1";
-//var difficulty = "000000";
 
+/*
+var disemvowelling_threshold = 6;
+var message = "I vociferously support Trump for president 2016! WAKE UP, SHEEPLE!!!1";
+var difficulty = "000000";
 
-//TODO set session cookie
+Opression(message, difficulty, disemvowelling_threshold);
+*/
+
