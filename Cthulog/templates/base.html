@@ -2,9 +2,9 @@
 <html lang="en">
 	<head>
 		{% block head %}
-
+		<!--favicon-->
+		<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 		<!-- bootstrap CSS -->
-		<link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/bootstrap.min.css") }}"> 
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
 		<!-- bootstrap theme -->
@@ -14,11 +14,9 @@
 		<link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/cthulog.css") }}"> 
 
 		<!-- jquery -->
-		<script type="text/javascript" src="{{ url_for("static", filename="js/jquery.min.js") }}"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 		<!-- bootstrap js -->
-		<script type="text/javascript" src="{{ url_for("static", filename="js/bootstrap.min.js") }}"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 		<!-- local js -->
@@ -29,7 +27,14 @@
 		<title>Cthulog</title>
 	</head>
 	<body>
+		{% block navbar %}
+		<div id="bye">
+			<button id="logout">logout</button>
+		</div>
+		{% endblock %}
 		{% block content %}{% endblock %}
-		{% block footer %}{% endblock %}
+		{% block footer %}
+		&copy; Cthulog 2015
+		{% endblock %}
 	</body>
 </html>

@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 {% block head %}
 {{ super() }}
+{% if data %}
+<script>var access_token = {{ data.access_token }}</script>
+{% endif %}
 {% endblock %}
 {% block navbar %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-<h1>Browse and Edit</h1>
-<p>bupkis</p>
+{% if data %}
+<h1>{{ data.section }}</h1>
+<p>{{ data.access_token }}</p>
+{% else %}
+<h1>Uuuhhh . . . Something is hosed.</h1>
+{% endif %}
 {% endblock %}

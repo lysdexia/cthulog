@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import datetime
+import uuid
 from flask import Flask, render_template, request, url_for, g, redirect, session
 from flaskext.auth import Auth, AuthUser, login_required, logout, Permission, Role, permission_required
 from flask.ext.pymongo import PyMongo
 from Cthulog.opression.Opression import opression_api
+from Cthulog.starrywisdom.StarryWisdom import starrywisdom 
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -12,20 +14,22 @@ app.secret_key = app.config["APP_SECRET_KEY"]
 mongo = PyMongo(app, config_prefix="MONGOLAB")
 opression_api(app)
 
+sw = starrywisdom(app, mongo)
+
 # authentication
 auth = Auth(app, login_url_name="login")
 # you'll stay logged in unto the heat death of the universe
 auth.user_timeout = 0
 
 create_user = Permission("create", "user")
-create_division = Permission("create", "division")
+create_section = Permission("create", "section")
 create_post = Permission("create", "post")
 read_posts = Permission("read", "posts")
 
 roles = {
         "admin": Role("admin", [
             create_user,
-            create_division,
+            create_section,
             create_post,
             read_posts,
             ]),
@@ -46,16 +50,46 @@ def init_users():
         user.role = "admin"
         g.users[username] = user
 
-# editor function "landing page"
-# again, everything pretty much copied from pocoo.org
-@app.route("/", methods = ["GET", "POST"])
+# everything that requires a login here
+# note that we don't use the @app.route decorator, thus requiring 
+# routing info below the actual endpoint definitions
+@permission_required(resource="read", action="posts")
+def index():
+    data = {
+            "section": app.config["PLACENAME"],
+            "access_token": session["access_token"]
+            }
+
+    return render_template("browse.html", data=data)
+app.add_url_rule("/", "index", index)
+
+@permission_required(resource="read", action="posts")
+def browse(section):
+    data = {
+            "section": section,
+            "access_token": session["access_token"]
+            }
+    return render_template("browse.html", data=data)
+app.add_url_rule("/s/<path:section>", "browse", browse, methods = ["GET", "POST"])
+
+@permission_required(resource="create", action="post")
+def editor():
+    return render_template("editor.html")
+app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
+
+# only login and logout don't require permissions
+# either will direct user back to login if no permissions obtained
+@app.route("/login", methods = ["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form["username"]
         if username in g.users:
             if g.users[username].authenticate(request.form["password"]):
+                # make available for use by api calls
                 session["username"] = username
-                return redirect(url_for("browse"))
+                # friendly access_token for api to use
+                session["access_token"] = str(uuid.uuid4())
+                return redirect(url_for("index"))
     return render_template("login.html")
 
 # get thee gone, back to index
@@ -64,16 +98,4 @@ def cthlogout():
     logout()
     return redirect(url_for("login"))
 
-# everything that requires a login here
-# note that we don't use the @app.route decorator, thus requiring 
-# routing info below the actual endpoint definitions
-@permission_required(resource="read", action="posts")
-def browse():
-    return render_template("browse.html")
-app.add_url_rule("/browse", "browse", browse)
-
-@permission_required(resource="create", action="post")
-def editor():
-    return render_template("editor.html")
-app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
 
