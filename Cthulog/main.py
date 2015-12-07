@@ -72,11 +72,6 @@ def browse(section):
     return render_template("browse.html", data=data)
 app.add_url_rule("/s/<path:section>", "browse", browse, methods = ["GET", "POST"])
 
-@permission_required(resource="create", action="post")
-def editor():
-    return render_template("editor.html")
-app.add_url_rule("/editor", "editor", editor, methods = ["GET", "POST"])
-
 # only login and logout don't require permissions
 # either will direct user back to login if no permissions obtained
 @app.route("/login", methods = ["GET", "POST"])
@@ -97,5 +92,3 @@ def login():
 def cthlogout():
     logout()
     return redirect(url_for("login"))
-
-
